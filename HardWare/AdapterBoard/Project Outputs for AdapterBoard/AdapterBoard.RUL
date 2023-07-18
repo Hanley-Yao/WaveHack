@@ -1,0 +1,5 @@
+DRC Rules Export File for PCB: C:\Users\Admin\Desktop\Magic_Paper\WaveHack\HardWare\AdapterBoard\AdapterBoard.PcbDoc
+RuleKind=SolderMaskExpansion|RuleName=SolderMaskExpansion|Scope=Board|Minimum=0.00
+RuleKind=Width|RuleName=Width|Scope=Board|Minimum=5.00
+RuleKind=Clearance|RuleName=Clearance|Scope=Board|Minimum=5.98
+RuleKind=ShortCircuit|RuleName=ShortCircuit|Scope=Board|Allowed=0
