@@ -2,6 +2,19 @@
 FileName = AdapterBoard.GBR
 AutoAperture = True
 *************************************************************
+Generating : Layer 2
+      File : AdapterBoard.G2
+
+    Adding Layer      : Layer 2
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D19
+*************************************************************
+
+*************************************************************
 Generating : Bottom Layer
       File : AdapterBoard.GBL
 
@@ -13,17 +26,8 @@ Generating : Bottom Layer
 Used DCodes :
     D15
     D16
+    D17
     D19
-*************************************************************
-
-*************************************************************
-Generating : Bottom Overlay
-      File : AdapterBoard.GBO
-
-    Adding Layer      : Bottom Overlay
-
-
-Used DCodes :
 *************************************************************
 
 *************************************************************
@@ -38,6 +42,71 @@ Generating : Bottom Pad Master
 Used DCodes :
     D15
     D16
+*************************************************************
+
+*************************************************************
+Generating : Top Pad Master
+      File : AdapterBoard.GPT
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D13
+    D14
+    D15
+    D16
+*************************************************************
+
+*************************************************************
+Generating : Bottom Paste
+      File : AdapterBoard.GBP
+
+    Adding Layer      : Bottom Paste
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Bottom Overlay
+      File : AdapterBoard.GBO
+
+    Adding Layer      : Bottom Overlay
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Mechanical 1
+      File : AdapterBoard.GM1
+
+    Adding Layer      : Mechanical 1
+
+
+Used DCodes :
+    D17
+*************************************************************
+
+*************************************************************
+Generating : Layer 1
+      File : AdapterBoard.G1
+
+    Adding Layer      : Layer 1
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D16
+    D19
 *************************************************************
 
 *************************************************************
@@ -60,24 +129,6 @@ Used DCodes :
 *************************************************************
 
 *************************************************************
-Generating : Top Solder
-      File : AdapterBoard.GTS
-
-    Adding Layer      : Top Solder
-
-    Adding Layer      : Top Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-    D13
-    D14
-    D15
-    D16
-*************************************************************
-
-*************************************************************
 Generating : Top Overlay
       File : AdapterBoard.GTO
 
@@ -91,8 +142,26 @@ Used DCodes :
 *************************************************************
 
 *************************************************************
-Generating : Top Pad Master
-      File : AdapterBoard.GPT
+Generating : Top Paste
+      File : AdapterBoard.GTP
+
+    Adding Layer      : Top Paste
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D13
+    D14
+*************************************************************
+
+*************************************************************
+Generating : Top Solder
+      File : AdapterBoard.GTS
+
+    Adding Layer      : Top Solder
 
     Adding Layer      : Top Layer
 
@@ -120,47 +189,6 @@ Generating : Bottom Solder
 Used DCodes :
     D15
     D16
-*************************************************************
-
-*************************************************************
-Generating : Mechanical 1
-      File : AdapterBoard.GM1
-
-    Adding Layer      : Mechanical 1
-
-
-Used DCodes :
-    D17
-*************************************************************
-
-*************************************************************
-Generating : Top Paste
-      File : AdapterBoard.GTP
-
-    Adding Layer      : Top Paste
-
-    Adding Layer      : Top Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-    D13
-    D14
-*************************************************************
-
-*************************************************************
-Generating : Bottom Paste
-      File : AdapterBoard.GBP
-
-    Adding Layer      : Bottom Paste
-
-    Adding Layer      : Bottom Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
 *************************************************************
 
 *************************************************************

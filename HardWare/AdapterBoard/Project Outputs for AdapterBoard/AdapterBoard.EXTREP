@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------------------
-Gerber File Extension Report For: AdapterBoard.GBR   2023-07-18  обнГ 02:51:27
+Gerber File Extension Report For: AdapterBoard.GBR   2023-07-25  обнГ 05:48:00
 ------------------------------------------------------------------------------------------
 
 
@@ -10,6 +10,8 @@ Layer Extension     Layer Description
 .GTP                Top Paste                               
 .GTS                Top Solder                              
 .GTL                Top Layer                               
+.G1                 Layer 1                                 
+.G2                 Layer 2                                 
 .GBL                Bottom Layer                            
 .GBS                Bottom Solder                           
 .GBP                Bottom Paste                            
