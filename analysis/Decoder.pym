@@ -1,0 +1,136 @@
+import os
+import array
+import pandas as pd
+from multiprocessing import Pool
+
+def set_bit(data, index, value):
+    """
+    将数组 data 中下标为 index 的 bit 赋值为 value（0 或 1）。
+    """
+    byte_index = index // 8  # 计算对应的字节下标
+    bit_index = index % 8    # 计算对应的 bit 位置
+    mask = 1 << bit_index    # 创建一个只在对应位置上为1的掩码
+    if value:
+        data[byte_index] |= mask  # 将对应位置上的 bit 置为1
+    else:
+        data[byte_index] &= ~mask # 将对应位置上的 bit 置为0
+
+def draw_fast_waveform():
+    # 实现绘制快速波形的函数
+    pass
+
+def draw_ac_1bit_waveform(data):
+    # 在522-532内填充01010101
+    data[522:532] = array.array('B', [0b10101010] * 10)
+
+    # 在532-542内填充10101010
+    data[532:542] = array.array('B', [0b01010101] * 10)
+
+def draw_ac_4bit_waveform(file_path, data):
+    addr_offset = 276*2*8 #bit
+
+    if not os.path.exists(file_path):
+        print(f"文件不存在: {file_path}")
+        return
+
+    df = pd.read_csv(file_path, skiprows=0)
+
+    # 获取当前文件所包含的波形周期
+    max_cycle = df['Cycle'].max()
+    if max_cycle > 192:
+        print("波形周期数超过EPDC设计最大值192")
+        return 0
+
+    # 循环将对应波形周期的对应数据写入data内
+    for state_cnt in range(256):
+        for cycle_cnt in range(max_cycle+1):
+            row = df.iloc[state_cnt+cycle_cnt*256]
+            if state_cnt % 17 == 0 :
+                set_bit(data, addr_offset+state_cnt*384+cycle_cnt*2, 0)
+                set_bit(data, addr_offset+state_cnt*384+cycle_cnt*2+1, 0)
+            else:
+                set_bit(data, addr_offset+state_cnt*384+cycle_cnt*2, row['Bit 0'])
+                set_bit(data, addr_offset+state_cnt*384+cycle_cnt*2+1, row['Bit 1'])
+
+def process_csv_file(file_path):
+    df = pd.read_csv(file_path, skiprows=4)
+    result = []
+    bool_spv = False
+    n_xstl = 0
+    index_valid = 0
+
+    for index, row in df.iterrows():
+        if not bool_spv:
+            if row[' SPV'] == 0:
+                bool_spv = True
+                n_xstl = 0
+        elif row[' XSTL'] == 0:
+            next_row = df.iloc[index+1]
+            if next_row[' XSTL'] == 1:
+                Start = (index_valid-(index_valid//256)*256)//16
+                End = index_valid-(index_valid//16)*16
+                Cycle = index_valid // 256
+                result.append((Start, End, Cycle, row[' D1'], row[' D0']))
+                index_valid += 1
+                n_xstl += 1
+                if n_xstl == 256:
+                    bool_spv = False
+                    n_xstl = 0
+
+    df_result = pd.DataFrame(result, columns=['Start', 'End', 'Cycle', 'Bit 1', 'Bit 0']).astype(int)
+
+    # 获取文件名和扩展名
+    file_name, file_ext = os.path.splitext(file_path)
+
+    # 定义要添加的前缀和后缀字符串
+    prefix = "source_data"
+
+    # 将前缀、文件名、后缀和扩展名组合起来
+    output_file = prefix + file_ext
+
+    # 构造输出文件的完整路径
+    csv_output_path = os.path.join(os.path.dirname(file_path), output_file)
+
+    df_result.to_csv(csv_output_path, index=False)
+
+    print(f"文件名: {os.path.basename(file_path)}, Cycle: {df_result['Cycle'].iloc[-1]+1}")
+
+    # 绘制波形
+    # 创建一个8位无符号整数数组，总长度为12840
+    data = array.array('B', [0] * 12840)
+
+    draw_fast_waveform()
+
+    draw_ac_1bit_waveform(data)
+
+    draw_ac_4bit_waveform(csv_output_path, data)
+
+    # 构造输出文件的完整路径
+    waveform_output_path = os.path.join(os.path.dirname(file_path), 'Waveform.bin')
+
+    # 将数组保存为二进制文件
+    with open(waveform_output_path, 'wb') as f:
+        f.write(data)
+
+if __name__ == '__main__':
+    dir_path = input("指定要处理的目录和其子目录: ")
+
+    # 创建进程池
+    pool = Pool()
+
+    # 遍历目录及其子目录中的所有文件
+    for root, dirs, files in os.walk(dir_path):
+        for file_name in files:
+            # 检查文件是否是CSV文件
+            if file_name.endswith(".csv"):
+                # 构造CSV文件的完整路径
+                file_path = os.path.join(root, file_name)
+
+                # 将处理CSV文件的函数放入进程池中
+                pool.apply_async(process_csv_file, args=(file_path,))
+
+    # 关闭进程池
+    pool.close()
+
+    # 等待所有进程池中的进程处理完毕并退出
+    pool.join()
